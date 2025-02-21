@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from src.station.models import (
+from station.models import (
     Airport,
     Route,
     AirplaneType,
