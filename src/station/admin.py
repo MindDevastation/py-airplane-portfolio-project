@@ -8,7 +8,7 @@ from station.models import (
     Crew,
     Flight,
     Order,
-    Ticket,
+    Ticket
 )
 
 admin.site.register(Airport)

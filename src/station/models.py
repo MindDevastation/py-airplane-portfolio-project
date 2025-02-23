@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from rest_framework.authtoken.models import TokenProxy
 
 
 class Airport(models.Model):
