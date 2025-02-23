@@ -75,3 +75,18 @@ class AirplaneDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airplane
         fields = ("id", "name", "rows", "seats_in_row", "airplane_type")
+
+class CrewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crew
+        fields = ("first_name", "last_name")
+
+class CrewListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crew
+        fields = ("id", "first_name", "last_name")
+
+class CrewDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crew
+        fields = ("id", "first_name", "last_name")
