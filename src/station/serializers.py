@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from station.models import Airport, Route, AirplaneType, Airplane, Crew, Flight, Order
+from station.models import Airport, Route, AirplaneType, Airplane, Crew, Flight, Order, Ticket
 
 
 class AirportSerializer(serializers.ModelSerializer):
@@ -158,3 +158,26 @@ class OrderDetailSerializer(serializers.ModelSerializer):
         model = Order
         fields = ("id", "created_at", "user")
 
+class TicketSerializer(serializers.ModelSerializer):
+    flight = serializers.PrimaryKeyRelatedField(queryset=Flight.objects.all())
+    order = serializers.PrimaryKeyRelatedField(queryset=Order.objects.all())
+
+    class Meta:
+        model = Ticket
+        fields = ("id", "row", "seat", "flight", "order")
+
+class TicketListSerializer(serializers.ModelSerializer):
+    flight = FlightDetailSerializer(read_only=True)
+    order = OrderListSerializer(read_only=True)
+
+    class Meta:
+        model = Ticket
+        fields = ("id", "row", "seat", "flight", "order")
+
+class TicketDetailSerializer(serializers.ModelSerializer):
+    flight = FlightDetailSerializer(read_only=True)
+    order = OrderListSerializer(read_only=True)
+
+    class Meta:
+        model = Ticket
+        fields = ("id", "row", "seat", "flight", "order")

@@ -2,13 +2,14 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import viewsets
 
-from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order
+from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order, Ticket
 from station.serializers import AirportSerializer, AirportListSerializer, AirportDetailSerializer, RouteSerializer, \
     RouteListSerializer, RouteDetailSerializer, AirplaneTypeSerializer, AirplaneTypeListSerializer, \
     AirplaneTypeDetailSerializer, AirplaneSerializer, AirplaneListSerializer, AirplaneDetailSerializer, CrewSerializer, \
     CrewListSerializer, CrewDetailSerializer, FlightSerializer, FlightListSerializer, FlightDetailSerializer, \
     UserSerializer, UserListSerializer, \
-    UserDetailSerializer, OrderSerializer, OrderListSerializer, OrderDetailSerializer
+    UserDetailSerializer, OrderSerializer, OrderListSerializer, OrderDetailSerializer, TicketSerializer, \
+    TicketListSerializer, TicketDetailSerializer
 
 
 class AirportViewSet(viewsets.ModelViewSet):
@@ -106,3 +107,15 @@ class OrderViewSet(viewsets.ModelViewSet):
             return OrderDetailSerializer
         else:
             return OrderSerializer
+
+class TicketViewSet(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return TicketListSerializer
+        elif self.action == 'retrieve':
+            return TicketDetailSerializer
+        else:
+            return TicketSerializer
