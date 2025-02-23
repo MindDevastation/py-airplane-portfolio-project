@@ -1,0 +1,667 @@
+[
+  {
+    "model": "station.airport",
+    "pk": 1,
+    "fields": {
+      "name": "Heathrow Airport",
+      "closest_big_city": "London"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 2,
+    "fields": {
+      "name": "Los Angeles International Airport",
+      "closest_big_city": "Los Angeles"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 3,
+    "fields": {
+      "name": "Charles de Gaulle Airport",
+      "closest_big_city": "Paris"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 4,
+    "fields": {
+      "name": "Tokyo Haneda Airport",
+      "closest_big_city": "Tokyo"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 5,
+    "fields": {
+      "name": "Dubai International Airport",
+      "closest_big_city": "Dubai"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 6,
+    "fields": {
+      "name": "Frankfurt Airport",
+      "closest_big_city": "Frankfurt"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 7,
+    "fields": {
+      "name": "Singapore Changi Airport",
+      "closest_big_city": "Singapore"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 8,
+    "fields": {
+      "name": "Sydney Kingsford Smith Airport",
+      "closest_big_city": "Sydney"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 9,
+    "fields": {
+      "name": "Toronto Pearson International Airport",
+      "closest_big_city": "Toronto"
+    }
+  },
+  {
+    "model": "station.airport",
+    "pk": 10,
+    "fields": {
+      "name": "Beijing Capital International Airport",
+      "closest_big_city": "Beijing"
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 1,
+    "fields": {
+      "source": 1,
+      "destination": 2,
+      "distance":8770
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 2,
+    "fields": {
+      "source": 1,
+      "destination": 3,
+      "distance":343
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 3,
+    "fields": {
+      "source": 1,
+      "destination": 4,
+      "distance":9559
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 4,
+    "fields": {
+      "source": 1,
+      "destination": 5,
+      "distance":8770
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 5,
+    "fields": {
+      "source": 1,
+      "destination": 6,
+      "distance":5485
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 6,
+    "fields": {
+      "source": 5,
+      "destination": 6,
+      "distance":4927
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 7,
+    "fields": {
+      "source": 2,
+      "destination": 7,
+      "distance":13513
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 8,
+    "fields": {
+      "source": 3,
+      "destination": 4,
+      "distance":9285
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 9,
+    "fields": {
+      "source": 3,
+      "destination": 5,
+      "distance":6294
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 10,
+    "fields": {
+      "source": 4,
+      "destination": 8,
+      "distance":7832
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 11,
+    "fields": {
+      "source": 4,
+      "destination": 9,
+      "distance":10763
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 12,
+    "fields": {
+      "source": 5,
+      "destination": 7,
+      "distance":6242
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 13,
+    "fields": {
+      "source": 6,
+      "destination": 7,
+      "distance":10083
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 14,
+    "fields": {
+      "source": 6,
+      "destination": 8,
+      "distance":16418
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 15,
+    "fields": {
+      "source": 7,
+      "destination": 8,
+      "distance":6394
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 16,
+    "fields": {
+      "source": 7,
+      "destination": 10,
+      "distance":4261
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 17,
+    "fields": {
+      "source": 8,
+      "destination": 9,
+      "distance":15475
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 18,
+    "fields": {
+      "source": 8,
+      "destination": 10,
+      "distance":8726
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 19,
+    "fields": {
+      "source": 9,
+      "destination": 10,
+      "distance":10518
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 20,
+    "fields": {
+      "source": 2,
+      "destination": 6,
+      "distance":9151
+    }
+  },
+   {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "admin_user",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "Admin",
+      "last_name": "User",
+      "email": "admin@example.com",
+      "is_staff": true,
+      "is_superuser": true,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "moderator_user",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "Moderator",
+      "last_name": "User",
+      "email": "moderator@example.com",
+      "is_staff": true,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "username": "user1",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "user1@example.com",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "username": "user2",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "user2@example.com",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "username": "user3",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "Emily",
+      "last_name": "Johnson",
+      "email": "user3@example.com",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+      "username": "user4",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "Michael",
+      "last_name": "Williams",
+      "email": "user4@example.com",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+      "username": "user5",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "Sarah",
+      "last_name": "Brown",
+      "email": "user5@example.com",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+      "username": "user6",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "Chris",
+      "last_name": "Davis",
+      "email": "user6@example.com",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 9,
+    "fields": {
+      "username": "user7",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "David",
+      "last_name": "Miller",
+      "email": "user7@example.com",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 10,
+    "fields": {
+      "username": "user8",
+      "password": "pbkdf2_sha256$600000$EbQaYhhfiM68k64Y4ajNNw$mmEdSFldyXWHVVOEhPxhcKWk0+0fOsDZB1BmPiZQ3iA=",
+      "first_name": "Anna",
+      "last_name": "Wilson",
+      "email": "user8@example.com",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "station.airplanetype",
+    "pk": 1,
+    "fields": {
+      "name": "Boeing 737"
+    }
+  },
+  {
+    "model": "station.airplanetype",
+    "pk": 2,
+    "fields": {
+      "name": "Airbus A320"
+    }
+  },
+  {
+    "model": "station.airplanetype",
+    "pk": 3,
+    "fields": {
+      "name": "Boeing 777"
+    }
+  },
+  {
+    "model": "station.airplanetype",
+    "pk": 4,
+    "fields": {
+      "name": "Airbus A380"
+    }
+  },
+  {
+    "model": "station.airplanetype",
+    "pk": 5,
+    "fields": {
+      "name": "Boeing 787"
+    }
+  },
+  {
+    "model": "station.airplane",
+    "pk": 1,
+    "fields": {
+      "name": "Airplane 1",
+      "rows": 30,
+      "seats_in_row": 6,
+      "airplane_type": 1
+    }
+  },
+  {
+    "model": "station.airplane",
+    "pk": 2,
+    "fields": {
+      "name": "Airplane 2",
+      "rows": 32,
+      "seats_in_row": 6,
+      "airplane_type": 2
+    }
+  },
+  {
+    "model": "station.airplane",
+    "pk": 3,
+    "fields": {
+      "name": "Airplane 3",
+      "rows": 35,
+      "seats_in_row": 8,
+      "airplane_type": 3
+    }
+  },
+  {
+    "model": "station.airplane",
+    "pk": 4,
+    "fields": {
+      "name": "Airplane 4",
+      "rows": 40,
+      "seats_in_row": 10,
+      "airplane_type": 4
+    }
+  },
+  {
+    "model": "station.airplane",
+    "pk": 5,
+    "fields": {
+      "name": "Airplane 5",
+      "rows": 30,
+      "seats_in_row": 6,
+      "airplane_type": 5
+    }
+  },
+  {
+    "model": "station.crew",
+    "pk": 1,
+    "fields": {
+      "first_name": "John",
+      "last_name": "Doe"
+    }
+  },
+  {
+    "model": "station.crew",
+    "pk": 2,
+    "fields": {
+      "first_name": "Jane",
+      "last_name": "Smith"
+    }
+  },
+  {
+    "model": "station.crew",
+    "pk": 3,
+    "fields": {
+      "first_name": "Emily",
+      "last_name": "Johnson"
+    }
+  },
+  {
+    "model": "station.crew",
+    "pk": 4,
+    "fields": {
+      "first_name": "Michael",
+      "last_name": "Williams"
+    }
+  },
+  {
+    "model": "station.crew",
+    "pk": 5,
+    "fields": {
+      "first_name": "Sarah",
+      "last_name": "Brown"
+    }
+  },
+  {
+    "model": "station.flight",
+    "pk": 1,
+    "fields": {
+      "route": 1,
+      "airplane": 1,
+      "departure_time": "2025-05-01T08:00:00",
+      "arrival_time": "2025-05-01T12:00:00",
+      "crew": [1, 2]
+    }
+  },
+  {
+    "model": "station.flight",
+    "pk": 2,
+    "fields": {
+      "route": 2,
+      "airplane": 2,
+      "departure_time": "2025-05-01T10:00:00",
+      "arrival_time": "2025-05-01T14:00:00",
+      "crew": [2, 3]
+    }
+  },
+  {
+    "model": "station.flight",
+    "pk": 3,
+    "fields": {
+      "route": 3,
+      "airplane": 3,
+      "departure_time": "2025-05-01T12:00:00",
+      "arrival_time": "2025-05-01T16:00:00",
+      "crew": [3, 4]
+    }
+  },
+  {
+    "model": "station.flight",
+    "pk": 4,
+    "fields": {
+      "route": 4,
+      "airplane": 4,
+      "departure_time": "2025-05-01T14:00:00",
+      "arrival_time": "2025-05-01T18:00:00",
+      "crew": [4, 5]
+    }
+  },
+  {
+    "model": "station.flight",
+    "pk": 5,
+    "fields": {
+      "route": 5,
+      "airplane": 5,
+      "departure_time": "2025-05-01T16:00:00",
+      "arrival_time": "2025-05-01T20:00:00",
+      "crew": [1, 3]
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 1,
+    "fields": {
+      "user": 1
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 2,
+    "fields": {
+      "user": 2
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 3,
+    "fields": {
+      "user": 3
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 4,
+    "fields": {
+      "user": 4
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 5,
+    "fields": {
+      "user": 5
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 1,
+    "fields": {
+      "row": 5,
+      "seat": 3,
+      "flight": 1,
+      "order": 1
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 2,
+    "fields": {
+      "row": 12,
+      "seat": 4,
+      "flight": 2,
+      "order": 2
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 3,
+    "fields": {
+      "row": 8,
+      "seat": 2,
+      "flight": 3,
+      "order": 3
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 4,
+    "fields": {
+      "row": 10,
+      "seat": 6,
+      "flight": 4,
+      "order": 4
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 5,
+    "fields": {
+      "row": 7,
+      "seat": 1,
+      "flight": 5,
+      "order": 5
+    }
+  }
+]
