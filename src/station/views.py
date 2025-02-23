@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import viewsets
 
+from airport.permissions import UserPermission
 from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order, Ticket
 from station.serializers import AirportSerializer, AirportListSerializer, AirportDetailSerializer, RouteSerializer, \
     RouteListSerializer, RouteDetailSerializer, AirplaneTypeSerializer, AirplaneTypeListSerializer, \
