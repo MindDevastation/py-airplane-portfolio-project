@@ -20,3 +20,22 @@ class CustomAuthUserPermission(BasePermission):
                 return True
 
         return False
+
+class UserPermission(BasePermission):
+    """
+    Custom permission to allow:
+    1. Non-authenticated users: Can create a new user.
+    2. Authenticated users: Can only edit their own user.
+    """
+
+    def has_permission(self, request, view):
+        if request.method == 'POST':
+            return True
+
+        return False
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in ['PUT', 'PATCH']:
+            return obj == request.user
+
+        return False

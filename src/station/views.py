@@ -88,6 +88,14 @@ class FlightViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [UserPermission]
+
+    def get_queryset(self):
+        if self.action == 'list':
+            return User.objects.all()
+        if self.request.user.is_authenticated:
+            return User.objects.filter(id=self.request.user.id)
+        return User.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':
