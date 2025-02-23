@@ -6,8 +6,9 @@ from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight,
 from station.serializers import AirportSerializer, AirportListSerializer, AirportDetailSerializer, RouteSerializer, \
     RouteListSerializer, RouteDetailSerializer, AirplaneTypeSerializer, AirplaneTypeListSerializer, \
     AirplaneTypeDetailSerializer, AirplaneSerializer, AirplaneListSerializer, AirplaneDetailSerializer, CrewSerializer, \
-    CrewListSerializer, CrewDetailSerializer, FlightSerializer, FlightListSerializer, FlightDetailSerializer, UserSerializer, UserListSerializer, \
-    UserDetailSerializer
+    CrewListSerializer, CrewDetailSerializer, FlightSerializer, FlightListSerializer, FlightDetailSerializer, \
+    UserSerializer, UserListSerializer, \
+    UserDetailSerializer, OrderSerializer, OrderListSerializer, OrderDetailSerializer
 
 
 class AirportViewSet(viewsets.ModelViewSet):
@@ -93,3 +94,15 @@ class UserViewSet(viewsets.ModelViewSet):
             return UserDetailSerializer
         else:
             return UserSerializer
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return OrderListSerializer
+        elif self.action == 'retrieve':
+            return OrderDetailSerializer
+        else:
+            return OrderSerializer
