@@ -1,5 +1,7 @@
 import openpyxl
 from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 from rest_framework import viewsets, filters
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
@@ -171,4 +173,37 @@ class OrderExcelExportView(APIView):
         response['Content-Disposition'] = 'attachment; filename="orders_report.xlsx"'
 
         wb.save(response)
+        return response
+
+
+class OrderPDFExportView(APIView):
+    def get(self, request, *args, **kwargs):
+        orders = Order.objects.all()
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="orders_report.pdf"'
+
+        p = canvas.Canvas(response, pagesize=letter)
+        width, height = letter
+
+        p.setFont("Helvetica-Bold", 16)
+        p.drawString(200, height - 40, "Orders Report")
+
+        p.setFont("Helvetica", 12)
+        p.drawString(50, height - 80, "Order ID")
+        p.drawString(150, height - 80, "User")
+        p.drawString(250, height - 80, "Created At")
+        # p.drawString(350, height - 80, "Status")
+
+        y_position = height - 100
+        for order in orders:
+            p.drawString(50, y_position, str(order.id))
+            p.drawString(150, y_position, order.user.username)
+            p.drawString(250, y_position, str(order.created_at))
+            # p.drawString(350, y_position, order.status)
+            y_position -= 20
+
+        p.showPage()
+        p.save()
+
         return response
