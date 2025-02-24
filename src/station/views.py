@@ -4,6 +4,7 @@ from django.db.models import Prefetch
 from rest_framework.pagination import PageNumberPagination
 
 from airport.filters import AirportFilter, RouteFilter, FlightFilter, OrderFilter, TicketFilter
+from airport.pagination import ExtendedPagination
 from airport.permissions import UserPermission
 from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order, Ticket
 from station.serializers import (
@@ -17,9 +18,6 @@ from station.serializers import (
     OrderSerializer, OrderListSerializer, OrderDetailSerializer,
     TicketSerializer, TicketListSerializer, TicketDetailSerializer
 )
-
-class BasePagination(PageNumberPagination):
-    page_size = 5
 
 class BaseViewSet(viewsets.ModelViewSet):
     """
@@ -40,7 +38,7 @@ class AirportViewSet(BaseViewSet):
     default_serializer_class = AirportSerializer
     list_serializer_class = AirportListSerializer
     detail_serializer_class = AirportDetailSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     filterset_class = AirportFilter
     search_fields = ["name", "closest_big_city"]
     ordering_fields = ['name', 'closest_big_city']
@@ -51,7 +49,7 @@ class RouteViewSet(BaseViewSet):
     default_serializer_class = RouteSerializer
     list_serializer_class = RouteListSerializer
     detail_serializer_class = RouteDetailSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     filterset_class = RouteFilter
     search_fields = ["source__name", "destination__name"]
     ordering_fields = ['source__name', 'destination__name']
@@ -62,7 +60,7 @@ class AirplaneTypeViewSet(BaseViewSet):
     default_serializer_class = AirplaneTypeSerializer
     list_serializer_class = AirplaneTypeListSerializer
     detail_serializer_class = AirplaneTypeDetailSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     filterset_class = AirportFilter
     search_fields = ["name"]
     ordering_fields = ['name']
@@ -73,7 +71,7 @@ class AirplaneViewSet(BaseViewSet):
     default_serializer_class = AirplaneSerializer
     list_serializer_class = AirplaneListSerializer
     detail_serializer_class = AirplaneDetailSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     search_fields = ["name", "airplane_type__name"]
     ordering_fields = ['name', 'airplane_type__name']
     ordering = ['name']
@@ -83,7 +81,7 @@ class CrewViewSet(BaseViewSet):
     default_serializer_class = CrewSerializer
     list_serializer_class = CrewListSerializer
     detail_serializer_class = CrewDetailSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     search_fields = ["first_name", "last_name"]
     ordering_fields = ['first_name', 'last_name']
     ordering = ['last_name']
@@ -95,7 +93,7 @@ class FlightViewSet(BaseViewSet):
     default_serializer_class = FlightSerializer
     list_serializer_class = FlightListSerializer
     detail_serializer_class = FlightDetailSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     filterset_class = FlightFilter
     search_fields = ['route__source__name', 'route__destination__name', 'departure_time', 'arrival_time']
     ordering_fields = ['departure_time', 'arrival_time']
@@ -104,7 +102,7 @@ class FlightViewSet(BaseViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     permission_classes = [UserPermission]
     search_fields = ['username', "email", "first_name", "last_name"]
     ordering_fields = ['username', 'email', 'first_name', 'last_name']
@@ -130,11 +128,11 @@ class OrderViewSet(BaseViewSet):
     default_serializer_class = OrderSerializer
     list_serializer_class = OrderListSerializer
     detail_serializer_class = OrderDetailSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     filterset_class = OrderFilter
     search_fields = ["created_at", "user__username"]
     ordering_fields = ["created_at", "user__username"]
-    ordering = ['created_at']
+    # ordering = ['created_at']
 
 class TicketViewSet(BaseViewSet):
     queryset = Ticket.objects.all().select_related('order', 'flight').prefetch_related(
@@ -143,7 +141,7 @@ class TicketViewSet(BaseViewSet):
     default_serializer_class = TicketSerializer
     list_serializer_class = TicketListSerializer
     detail_serializer_class = TicketDetailSerializer
-    pagination_class = BasePagination
+    pagination_class = ExtendedPagination
     filterset_class = TicketFilter
     search_fields = ["order__created_at", "order__user__username"]
     ordering_fields = ["order__created_at", "order__user__username"]
