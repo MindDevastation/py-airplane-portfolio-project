@@ -6,7 +6,8 @@ import stripe
 from django.conf import settings
 
 from payment.models import PayPalPayment, StripePayment
-from payment.serializers import StripePaymentSerializer, PayPalPaymentSerializer
+from payment.serializers import StripePaymentSerializer, PayPalPaymentSerializer, StripePaymentStatusUpdateSerializer, \
+    PayPalPaymentStatusUpdateSerializer
 
 
 class PaymentViewSet(viewsets.GenericViewSet):
@@ -41,6 +42,31 @@ class CreateStripePaymentView(APIView):
             except ValueError as e:
                 return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class StripePaymentViewSet(viewsets.ModelViewSet):
+    queryset = StripePayment.objects.all()
+    serializer_class = StripePaymentSerializer
+
+    def update_status(self, request, pk=None):
+        payment = self.get_object()
+        serializer = StripePaymentStatusUpdateSerializer(payment, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PayPalPaymentViewSet(viewsets.ModelViewSet):
+    queryset = PayPalPayment.objects.all()
+    serializer_class = PayPalPaymentSerializer
+
+    def update_status(self, request, pk=None):
+        payment = self.get_object()
+        serializer = PayPalPaymentStatusUpdateSerializer(payment, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # PayPal

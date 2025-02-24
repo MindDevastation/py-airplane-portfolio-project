@@ -22,3 +22,19 @@ class PayPalPaymentSerializer(serializers.ModelSerializer):
         if data["amount"] <= 0:
             raise serializers.ValidationError("Amount must be greater than zero.")
         return data
+
+class StripePaymentStatusListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StripePayment
+        fields = "__all__"
+
+class StripePaymentStatusUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StripePayment
+        fields = ['status']
+        read_only_fields = ['stripe_payment_intent_id']
+
+class PayPalPaymentStatusUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PayPalPayment
+        fields = ['status']
