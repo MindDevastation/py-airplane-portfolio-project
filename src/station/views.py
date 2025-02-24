@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from rest_framework import viewsets
 
 from airport.permissions import UserPermission
@@ -91,11 +90,12 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [UserPermission]
 
     def get_queryset(self):
-        if self.action == 'list':
+        user = self.request.user
+        if not user.is_authenticated:
+            return User.objects.none()
+        if user.is_staff or user.is_superuser:
             return User.objects.all()
-        if self.request.user.is_authenticated:
-            return User.objects.filter(id=self.request.user.id)
-        return User.objects.all()
+        return User.objects.filter(id=user.id)
 
     def get_serializer_class(self):
         if self.action == 'list':

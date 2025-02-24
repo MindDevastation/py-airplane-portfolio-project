@@ -1,4 +1,5 @@
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
+
 
 class CustomAuthUserPermission(BasePermission):
     """
@@ -23,19 +24,32 @@ class CustomAuthUserPermission(BasePermission):
 
 class UserPermission(BasePermission):
     """
-    Custom permission to allow:
-    1. Non-authenticated users: Can create a new user.
-    2. Authenticated users: Can only edit their own user.
+    1. Unauthorized users can only create a new user.
+    2. Authorized users can only view and edit their profile and create new users.
+    3. Moderators have full access to all users, but cannot edit superusers.
+    4. Superusers have full access with no restrictions.
     """
 
     def has_permission(self, request, view):
-        if request.method == 'POST':
+        if request.method in ["POST"]:
+            return True
+
+        if request.user and request.user.is_authenticated:
             return True
 
         return False
 
     def has_object_permission(self, request, view, obj):
-        if request.method in ['PUT', 'PATCH']:
-            return obj == request.user
+        if request.user.is_superuser:
+            return True
+
+        if request.method in SAFE_METHODS:
+            return obj == request.user or request.user.is_staff
+
+        if obj == request.user:
+            return True
+
+        if request.user.is_staff and not obj.is_superuser:
+            return True
 
         return False
