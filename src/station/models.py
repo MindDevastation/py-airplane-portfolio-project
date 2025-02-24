@@ -90,3 +90,21 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"Ticket {self.id} for Flight {self.flight.id}"
+
+# Logging
+
+class ActionLog(models.Model):
+    ACTION_CHOICES = [
+        ("created", "Created"),
+        ("updated", "Updated"),
+        ("deleted", "Deleted"),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES)
+    model_name = models.CharField(max_length=255)
+    object_id = models.PositiveIntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} {self.action} {self.model_name} (ID: {self.object_id}) at {self.timestamp}"

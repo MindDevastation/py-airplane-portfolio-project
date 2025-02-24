@@ -161,23 +161,34 @@ SIMPLE_JWT = {
 # Logging
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/errors.log'),
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "error_file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/errors.log"),
+        },
+        "actions_file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/actions.log"),
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'ERROR',
-            'propagate': True,
+    "loggers": {
+        "django": {
+            "handlers": ["error_file"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "user_actions": {
+            "handlers": ["actions_file"],
+            "level": "INFO",
+            "propagate": False,
         },
     },
 }
+
 
 # Payment
 # Stripe

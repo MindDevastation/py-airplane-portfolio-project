@@ -1,13 +1,14 @@
-from datetime import timedelta
+import logging
+from datetime import timedelta, datetime
 from time import timezone
 
 from celery import shared_task
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from station.models import Order, Flight
+from station.models import Order, Flight, ActionLog
 
 
 @receiver(post_save, sender=Order)
@@ -63,3 +64,39 @@ def send_flight_reminder(flight_id):
         for user in users:
             send_mail(subject, plain_message, from_email, [user.email], html_message=html_message)
 
+logger = logging.getLogger("user_actions")
+
+
+@receiver(post_save, sender=Order)
+def log_order_changes(sender, instance, created, **kwargs):
+    action = "created" if created else "updated"
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    logger.info(f"{timestamp} - User {instance.user} {action} Order (ID: {instance.id})")
+    ActionLog.objects.create(
+        user=instance.user, action=action, model_name="Order", object_id=instance.id
+    )
+
+@receiver(post_delete, sender=Order)
+def log_order_deletion(sender, instance, **kwargs):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    logger.info(f"{timestamp} - User {instance.user} deleted Order (ID: {instance.id})")
+    ActionLog.objects.create(
+        user=instance.user, action="deleted", model_name="Order", object_id=instance.id
+    )
+
+@receiver(post_save, sender=Flight)
+def log_flight_changes(sender, instance, created, **kwargs):
+    action = "created" if created else "updated"
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    logger.info(f"{timestamp} - Flight {instance.id} {action}")
+    ActionLog.objects.create(
+        action=action, model_name="Flight", object_id=instance.id
+    )
+
+@receiver(post_delete, sender=Flight)
+def log_flight_deletion(sender, instance, **kwargs):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    logger.info(f"{timestamp} - Flight {instance.id} deleted")
+    ActionLog.objects.create(
+        action="deleted", model_name="Flight", object_id=instance.id
+    )

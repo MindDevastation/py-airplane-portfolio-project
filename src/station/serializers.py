@@ -146,22 +146,25 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    flight = serializers.PrimaryKeyRelatedField(queryset=Flight.objects.all())
 
     class Meta:
         model = Order
-        fields = ("id", "created_at", "user")
+        fields = ("id", "created_at", "user", "flight")
 
 class OrderListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    flight = FlightListSerializer(read_only=True)
     class Meta:
         model = Order
-        fields = ("id", "created_at", "user")
+        fields = ("id", "created_at", "user", "flight")
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    flight = FlightDetailSerializer(read_only=True)
     class Meta:
         model = Order
-        fields = ("id", "created_at", "user")
+        fields = ("id", "created_at", "user", "flight")
 
 class TicketSerializer(serializers.ModelSerializer):
     flight = serializers.PrimaryKeyRelatedField(queryset=Flight.objects.all())
