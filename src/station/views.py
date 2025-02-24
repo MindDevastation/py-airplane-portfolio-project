@@ -1,11 +1,15 @@
+import openpyxl
+from django.http import HttpResponse
 from rest_framework import viewsets, filters
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.views import APIView
 
 from airport.filters import AirportFilter, RouteFilter, FlightFilter, OrderFilter, TicketFilter
 from airport.pagination import ExtendedPagination
 from airport.permissions import UserPermission
+from station.admin import OrderResource
 from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order, Ticket
 from station.serializers import (
     AirportSerializer, AirportListSerializer, AirportDetailSerializer,
@@ -146,3 +150,25 @@ class TicketViewSet(BaseViewSet):
     search_fields = ["order__created_at", "order__user__username"]
     ordering_fields = ["order__created_at", "order__user__username"]
     ordering = ['order__created_at']
+
+# Export files
+
+class OrderExcelExportView(APIView):
+    def get(self, request, *args, **kwargs):
+        orders = Order.objects.all()
+
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Orders Report"
+
+        ws.append(['Order ID', 'User', 'Created At'])
+
+        for order in orders:
+            created_at = order.created_at.replace(tzinfo=None) if order.created_at else None
+            ws.append([order.id, order.user.username, created_at])
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="orders_report.xlsx"'
+
+        wb.save(response)
+        return response
