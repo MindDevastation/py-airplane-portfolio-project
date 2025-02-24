@@ -5,6 +5,7 @@ from rest_framework import status
 import stripe
 from django.conf import settings
 
+from payment.models import PayPalPayment
 from payment.serializers import StripePaymentSerializer, PayPalPaymentSerializer
 
 # Stripe
@@ -53,3 +54,23 @@ class CreatePayPalPaymentView(APIView):
                 return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PayPalPaymentSuccessView(APIView):
+    def get(self, request):
+        payment_id = request.GET.get("paymentId")
+        payer_id = request.GET.get("PayerID")
+
+        if payment_id and payer_id:
+            payment = paypalrestsdk.Payment.find(payment_id)
+            if payment.execute({"payer_id": payer_id}):
+                paypal_payment = PayPalPayment.objects.get(payment_id=payment_id)
+                paypal_payment.status = "completed"
+                paypal_payment.save()
+                return Response({"status": "Payment completed successfully!"})
+            else:
+                return Response({"error": "Payment execution failed"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Missing payment or payer ID"}, status=status.HTTP_400_BAD_REQUEST)
+
+class PayPalPaymentCancelView(APIView):
+    def get(self, request):
+        return Response({"status": "Payment was canceled"}, status=status.HTTP_200_OK)
