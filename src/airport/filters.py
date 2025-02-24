@@ -67,3 +67,11 @@ class TicketFilter(django_filters.FilterSet, PaginationFilter):
     class Meta:
         model = Ticket
         fields = ['flight', 'order_user']
+
+class PaymentFilter(django_filters.FilterSet, PaginationFilter):
+    user = django_filters.CharFilter(field_name='user__username', lookup_expr='icontains')
+    created_at = django_filters.DateTimeFilter(field_name='created_at', lookup_expr='gte')
+    amount = django_filters.NumberFilter(field_name='amount', lookup_expr='gte')
+    status = django_filters.CharFilter(field_name='status', lookup_expr='icontains')
+    page_size = django_filters.NumberFilter(field_name='page_size', method='filter_page_size', required=False,
+                                            label="Number of items per page")

@@ -5,12 +5,19 @@ from rest_framework import status, viewsets
 import stripe
 from django.conf import settings
 
+from airport.filters import PaymentFilter
+from airport.pagination import ExtendedPagination
 from payment.models import PayPalPayment, StripePayment
 from payment.serializers import StripePaymentSerializer, PayPalPaymentSerializer, StripePaymentStatusUpdateSerializer, \
     PayPalPaymentStatusUpdateSerializer
 
 
 class PaymentViewSet(viewsets.GenericViewSet):
+    pagination_class = ExtendedPagination
+    filterset_class = PaymentFilter
+    search_fields = ["amount", "status"]
+    ordering_fields = ['amount', 'status']
+    ordering = ['status']
     def list(self, request):
         stripe_payments = StripePayment.objects.all()
         paypal_payments = PayPalPayment.objects.all()
