@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from station.views import OrderExcelExportView, OrderPDFExportView, OrderCSVExportView
+from station.views import OrderExcelExportView, OrderPDFExportView, OrderCSVExportView, send_test_email
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,4 +30,5 @@ urlpatterns = [
     path('api/order-excel-export/', OrderExcelExportView.as_view(), name='order-excel-export'),
     path('api/order-pdf-export/', OrderPDFExportView.as_view(), name='order-pdf-export'),
     path('api/order-csv-export/', OrderCSVExportView.as_view(), name='order-csv-export'),
+    path('api/send-test-email/', send_test_email, name='send-test-email'),
 ]

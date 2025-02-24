@@ -1,6 +1,7 @@
 import csv
 
 import openpyxl
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -224,3 +225,15 @@ class OrderCSVExportView(APIView):
             writer.writerow([order.id, order.user.username, order.created_at])
 
         return response
+
+# Test Mailing
+
+def send_test_email(request):
+    send_mail(
+        'Test Email Subject',
+        'Here is the message body.',
+        'from@example.com',
+        ['to@example.com'],
+        fail_silently=False,
+    )
+    return HttpResponse("Test email sent!")

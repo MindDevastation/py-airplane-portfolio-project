@@ -26,28 +26,40 @@ def send_order_confirmation_email(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Flight)
 def send_flight_status_update(sender, instance, **kwargs):
-    if instance.status in ['delayed', 'cancelled']:
-        subject = f"Flight {instance.id} Status Update"
-        html_message = render_to_string(
-            'flight_status_update_email.html', {'flight': instance}
-        )
-        plain_message = strip_tags(html_message)
-        from_email = 'no-reply@yourdomain.com'
-        to_email = instance.user.email
+    if instance.status in ["delayed", "cancelled"]:
+        users = instance.get_users()
+        if users:
+            print(f"Flight status updated to: {instance.status}")
+            subject = f"Flight {instance.id} Status Update"
+            html_message = render_to_string(
+                "flight_status_update_email.html", {"flight": instance}
+            )
+            plain_message = strip_tags(html_message)
+            from_email = "no-reply@yourdomain.com"
 
-        send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+            for user in users:
+                send_mail(subject, plain_message, from_email, [user.email], html_message=html_message)
+
 
 @shared_task
 def send_flight_reminder(flight_id):
-    flight = Flight.objects.get(id=flight_id)
-    if flight.departure_time - timedelta(hours=1) <= timezone.now():
-        subject = f"Reminder: Your Flight {flight.id} is in 1 hour!"
-        html_message = render_to_string(
-            'flight_reminder_email.html', {'flight': flight}
-        )
-        plain_message = strip_tags(html_message)
-        from_email = 'no-reply@yourdomain.com'
-        to_email = flight.user.email
+    try:
+        flight = Flight.objects.get(id=flight_id)
+    except Flight.DoesNotExist:
+        return
 
-        send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+    users = flight.get_users()
+    if not users:
+        return
+
+    time_until_departure = flight.departure_time - timezone.now()
+
+    if timedelta(minutes=0) <= time_until_departure <= timedelta(hours=1):
+        subject = f"Reminder: Your Flight {flight.id} is in 1 hour!"
+        html_message = render_to_string("flight_reminder_email.html", {"flight": flight})
+        plain_message = strip_tags(html_message)
+        from_email = "no-reply@yourdomain.com"
+
+        for user in users:
+            send_mail(subject, plain_message, from_email, [user.email], html_message=html_message)
 

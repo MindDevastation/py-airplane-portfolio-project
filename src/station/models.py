@@ -68,11 +68,15 @@ class Flight(models.Model):
     def __str__(self):
         return f"Flight {self.id}: {self.route} - Status: {self.get_status_display()}"
 
+    def get_users(self):
+        return [order.user for order in self.orders.all()]
+
 
 
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    flight = models.ForeignKey(Flight, related_name="orders", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
