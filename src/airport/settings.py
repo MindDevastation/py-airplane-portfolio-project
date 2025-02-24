@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "payment",
     "rest_framework",
     'django_filters',
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +63,7 @@ ROOT_URLCONF = "airport.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR /  'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -178,7 +179,6 @@ LOGGING = {
     },
 }
 
-
 # Payment
 # Stripe
 
@@ -194,3 +194,26 @@ STRIPE_SECRET_KEY = "sk_test_51Qw2buDbN9nT1B9Au2xAXNwJqdrInqjspRtC0DgQyylIwwDfdz
 PAYPAL_CLIENT_ID = "AXV7Rwg13nxn4jSwmtY8uvvMFZP63Zu0VU7p4kNcxH0lFvqRscgqFrjEsiEPN_3ctHCETbOGLw9uO6jj"
 PAYPAL_SECRET = "EO2J9xI9j7gvfd77YgpS9B5YX--dYGd5H2TZAG72GafFMmKC6vz-1yyuRnU2lcGreZHUhq4WoB7ktHF5"
 PAYPAL_MODE = "sandbox"
+
+# Mailing
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.mailtrap.io'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'your_username'
+# EMAIL_HOST_PASSWORD = 'your_password'
+# DEFAULT_FROM_EMAIL = 'no-reply@yourdomain.com'
+# ANYMAIL = {
+#     "MAILTRAP_API_KEY": "your_password",
+# }
+
+
+ANYMAIL = {
+    "MAILTRAP_API_KEY": "d11c05f37d1f94",
+}
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '7c160f808f5c8c'
+EMAIL_HOST_PASSWORD = 'd11c05f37d1f94'
+DEFAULT_FROM_EMAIL = 'no-reply@yourdomain.com'
