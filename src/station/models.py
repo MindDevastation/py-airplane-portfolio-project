@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from rest_framework.authtoken.models import TokenProxy
 
 
 class Airport(models.Model):
@@ -35,7 +34,7 @@ class Airplane(models.Model):
     name = models.CharField(max_length=255)
     rows = models.PositiveIntegerField()
     seats_in_row = models.PositiveIntegerField()
-    airplane_type = models.ForeignKey(AirplaneType, on_delete=models.CASCADE)
+    airplane_type = models.ForeignKey(AirplaneType, on_delete=models.CASCADE, related_name="airplane_type")
 
     def __str__(self):
         return self.name
@@ -71,8 +70,8 @@ class Order(models.Model):
 class Ticket(models.Model):
     row = models.PositiveIntegerField()
     seat = models.PositiveIntegerField()
-    flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name="flight_tickets")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_tickets")
 
     def __str__(self):
         return f"Ticket {self.id} for Flight {self.flight.id}"

@@ -1,5 +1,6 @@
 from rest_framework import viewsets, filters
 from django.contrib.auth.models import User
+from django.db.models import Prefetch
 
 from airport.permissions import UserPermission
 from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order, Ticket
@@ -27,7 +28,10 @@ class BaseViewSet(viewsets.ModelViewSet):
         return serializer_map.get(self.action, self.default_serializer_class)
 
 class AirportViewSet(BaseViewSet):
-    queryset = Airport.objects.all()
+    queryset = Airport.objects.all().prefetch_related(
+        Prefetch('departures', queryset=Route.objects.select_related('destination')),
+        Prefetch('arrivals', queryset=Route.objects.select_related('source'))
+    )
     default_serializer_class = AirportSerializer
     list_serializer_class = AirportListSerializer
     detail_serializer_class = AirportDetailSerializer
@@ -37,7 +41,7 @@ class AirportViewSet(BaseViewSet):
     ordering = ['name']
 
 class RouteViewSet(BaseViewSet):
-    queryset = Route.objects.all()
+    queryset = Route.objects.all().select_related('source', 'destination')
     default_serializer_class = RouteSerializer
     list_serializer_class = RouteListSerializer
     detail_serializer_class = RouteDetailSerializer
@@ -57,7 +61,7 @@ class AirplaneTypeViewSet(BaseViewSet):
     ordering = ['name']
 
 class AirplaneViewSet(BaseViewSet):
-    queryset = Airplane.objects.all()
+    queryset = Airplane.objects.all().select_related('airplane_type')
     default_serializer_class = AirplaneSerializer
     list_serializer_class = AirplaneListSerializer
     detail_serializer_class = AirplaneDetailSerializer
@@ -77,7 +81,9 @@ class CrewViewSet(BaseViewSet):
     ordering = ['last_name']
 
 class FlightViewSet(BaseViewSet):
-    queryset = Flight.objects.all()
+    queryset = Flight.objects.all().select_related('route', 'airplane').prefetch_related(
+        Prefetch('crew', queryset=Crew.objects.all())
+    )
     default_serializer_class = FlightSerializer
     list_serializer_class = FlightListSerializer
     detail_serializer_class = FlightDetailSerializer
@@ -111,7 +117,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return serializer_map.get(self.action, UserSerializer)
 
 class OrderViewSet(BaseViewSet):
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().select_related('user')
     default_serializer_class = OrderSerializer
     list_serializer_class = OrderListSerializer
     detail_serializer_class = OrderDetailSerializer
@@ -121,7 +127,9 @@ class OrderViewSet(BaseViewSet):
     ordering = ['created_at']
 
 class TicketViewSet(BaseViewSet):
-    queryset = Ticket.objects.all()
+    queryset = Ticket.objects.all().select_related('order', 'flight').prefetch_related(
+        Prefetch('order__user', queryset=User.objects.all())
+    )
     default_serializer_class = TicketSerializer
     list_serializer_class = TicketListSerializer
     detail_serializer_class = TicketDetailSerializer
