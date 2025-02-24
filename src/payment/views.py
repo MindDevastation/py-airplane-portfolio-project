@@ -1,12 +1,26 @@
 import paypalrestsdk
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 import stripe
 from django.conf import settings
 
-from payment.models import PayPalPayment
+from payment.models import PayPalPayment, StripePayment
 from payment.serializers import StripePaymentSerializer, PayPalPaymentSerializer
+
+
+class PaymentViewSet(viewsets.GenericViewSet):
+    def list(self, request):
+        stripe_payments = StripePayment.objects.all()
+        paypal_payments = PayPalPayment.objects.all()
+
+        stripe_serializer = StripePaymentSerializer(stripe_payments, many=True)
+        paypal_serializer = PayPalPaymentSerializer(paypal_payments, many=True)
+
+        return Response({
+            "stripe_payments": stripe_serializer.data,
+            "paypal_payments": paypal_serializer.data
+        }, status=status.HTTP_200_OK)
 
 # Stripe
 
