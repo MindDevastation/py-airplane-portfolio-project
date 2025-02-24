@@ -1,5 +1,4 @@
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets, filters
 from django.contrib.auth.models import User
 
 from airport.permissions import UserPermission
@@ -32,41 +31,69 @@ class AirportViewSet(BaseViewSet):
     default_serializer_class = AirportSerializer
     list_serializer_class = AirportListSerializer
     detail_serializer_class = AirportDetailSerializer
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ["name", "closest_big_city"]
+    ordering_fields = ['name', 'closest_big_city']
+    ordering = ['name']
 
 class RouteViewSet(BaseViewSet):
     queryset = Route.objects.all()
     default_serializer_class = RouteSerializer
     list_serializer_class = RouteListSerializer
     detail_serializer_class = RouteDetailSerializer
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ["source__name", "destination__name"]
+    ordering_fields = ['source__name', 'destination__name']
+    ordering = ['source__name']
 
 class AirplaneTypeViewSet(BaseViewSet):
     queryset = AirplaneType.objects.all()
     default_serializer_class = AirplaneTypeSerializer
     list_serializer_class = AirplaneTypeListSerializer
     detail_serializer_class = AirplaneTypeDetailSerializer
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ["name"]
+    ordering_fields = ['name']
+    ordering = ['name']
 
 class AirplaneViewSet(BaseViewSet):
     queryset = Airplane.objects.all()
     default_serializer_class = AirplaneSerializer
     list_serializer_class = AirplaneListSerializer
     detail_serializer_class = AirplaneDetailSerializer
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ["name", "airplane_type__name"]
+    ordering_fields = ['name', 'airplane_type__name']
+    ordering = ['name']
 
 class CrewViewSet(BaseViewSet):
     queryset = Crew.objects.all()
     default_serializer_class = CrewSerializer
     list_serializer_class = CrewListSerializer
     detail_serializer_class = CrewDetailSerializer
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ["first_name", "last_name"]
+    ordering_fields = ['first_name', 'last_name']
+    ordering = ['last_name']
 
 class FlightViewSet(BaseViewSet):
     queryset = Flight.objects.all()
     default_serializer_class = FlightSerializer
     list_serializer_class = FlightListSerializer
     detail_serializer_class = FlightDetailSerializer
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter)
+    search_fields = ['route__source__name', 'route__destination__name', 'departure_time', 'arrival_time']
+    ordering_fields = ['departure_time', 'arrival_time']
+    ordering = ['departure_time']
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [UserPermission]
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ['username', "email", "first_name", "last_name"]
+    ordering_fields = ['username', 'email', 'first_name', 'last_name']
+    ordering = ['username']
 
     def get_queryset(self):
         user = self.request.user
@@ -88,9 +115,17 @@ class OrderViewSet(BaseViewSet):
     default_serializer_class = OrderSerializer
     list_serializer_class = OrderListSerializer
     detail_serializer_class = OrderDetailSerializer
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ["created_at", "user__username"]
+    ordering_fields = ["created_at", "user__username"]
+    ordering = ['created_at']
 
 class TicketViewSet(BaseViewSet):
     queryset = Ticket.objects.all()
     default_serializer_class = TicketSerializer
     list_serializer_class = TicketListSerializer
     detail_serializer_class = TicketDetailSerializer
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ["order__created_at", "order__user__username"]
+    ordering_fields = ["order__created_at", "order__user__username"]
+    ordering = ['order__created_at']
