@@ -49,14 +49,25 @@ class Crew(models.Model):
 
 
 class Flight(models.Model):
+    STATUS_CHOICES = [
+        ("on_time", "On Time"),
+        ("delayed", "Delayed"),
+        ("cancelled", "Cancelled"),
+        ("completed", "Completed"),
+    ]
+
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     crew = models.ManyToManyField(Crew, related_name="flights")
+    status = models.CharField(
+        max_length=10, choices=STATUS_CHOICES, default="on_time"
+    )
 
     def __str__(self):
-        return f"Flight {self.id}: {self.route}"
+        return f"Flight {self.id}: {self.route} - Status: {self.get_status_display()}"
+
 
 
 class Order(models.Model):

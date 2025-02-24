@@ -24,18 +24,18 @@ def send_order_confirmation_email(sender, instance, created, **kwargs):
         send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
 
 
-# @receiver(post_save, sender=Flight)
-# def send_flight_status_update(sender, instance, **kwargs):
-#     if instance.status in ['delayed', 'cancelled']:
-#         subject = f"Flight {instance.id} Status Update"
-#         html_message = render_to_string(
-#             'flight_status_update_email.html', {'flight': instance}
-#         )
-#         plain_message = strip_tags(html_message)
-#         from_email = 'no-reply@yourdomain.com'
-#         to_email = instance.user.email
-#
-#         send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+@receiver(post_save, sender=Flight)
+def send_flight_status_update(sender, instance, **kwargs):
+    if instance.status in ['delayed', 'cancelled']:
+        subject = f"Flight {instance.id} Status Update"
+        html_message = render_to_string(
+            'flight_status_update_email.html', {'flight': instance}
+        )
+        plain_message = strip_tags(html_message)
+        from_email = 'no-reply@yourdomain.com'
+        to_email = instance.user.email
+
+        send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
 
 @shared_task
 def send_flight_reminder(flight_id):

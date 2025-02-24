@@ -532,6 +532,7 @@
       "airplane": 1,
       "departure_time": "2025-05-01T08:00:00",
       "arrival_time": "2025-05-01T12:00:00",
+      "status": "on_time",
       "crew": [1, 2]
     }
   },
@@ -543,6 +544,7 @@
       "airplane": 2,
       "departure_time": "2025-05-01T10:00:00",
       "arrival_time": "2025-05-01T14:00:00",
+      "status": "on_time",
       "crew": [2, 3]
     }
   },
@@ -554,6 +556,7 @@
       "airplane": 3,
       "departure_time": "2025-05-01T12:00:00",
       "arrival_time": "2025-05-01T16:00:00",
+      "status": "on_time",
       "crew": [3, 4]
     }
   },
@@ -565,6 +568,7 @@
       "airplane": 4,
       "departure_time": "2025-05-01T14:00:00",
       "arrival_time": "2025-05-01T18:00:00",
+      "status": "on_time",
       "crew": [4, 5]
     }
   },
@@ -576,6 +580,7 @@
       "airplane": 5,
       "departure_time": "2025-05-01T16:00:00",
       "arrival_time": "2025-05-01T20:00:00",
+      "status": "on_time",
       "crew": [1, 3]
     }
   },
