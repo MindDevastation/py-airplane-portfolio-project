@@ -1,0 +1,52 @@
+import django_filters
+from station.models import Airport, Route, Airplane, Flight, Order, Ticket
+
+class AirportFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+    closest_big_city = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = Airport
+        fields = ['name', 'closest_big_city']
+
+class RouteFilter(django_filters.FilterSet):
+    source = django_filters.CharFilter(field_name='source__name', lookup_expr='icontains')
+    destination = django_filters.CharFilter(field_name='destination__name', lookup_expr='icontains')
+
+    class Meta:
+        model = Route
+        fields = ['source', 'destination']
+
+class AirplaneFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+    airplane_type = django_filters.CharFilter(field_name='airplane_type__name', lookup_expr='icontains')
+
+    class Meta:
+        model = Airplane
+        fields = ['name', 'airplane_type']
+
+class FlightFilter(django_filters.FilterSet):
+    departure_time = django_filters.DateTimeFilter(field_name='departure_time', lookup_expr='gte')
+    arrival_time = django_filters.DateTimeFilter(field_name='arrival_time', lookup_expr='lte')
+    source = django_filters.CharFilter(field_name='route__source__name', lookup_expr='icontains')
+    destination = django_filters.CharFilter(field_name='route__destination__name', lookup_expr='icontains')
+
+    class Meta:
+        model = Flight
+        fields = ['departure_time', 'arrival_time', 'source', 'destination']
+
+class OrderFilter(django_filters.FilterSet):
+    user = django_filters.CharFilter(field_name='user__username', lookup_expr='icontains')
+    created_at = django_filters.DateTimeFilter(field_name='created_at', lookup_expr='gte')
+
+    class Meta:
+        model = Order
+        fields = ['user', 'created_at']
+
+class TicketFilter(django_filters.FilterSet):
+    flight = django_filters.CharFilter(field_name='flight__route__source__name', lookup_expr='icontains')
+    order_user = django_filters.CharFilter(field_name='order__user__username', lookup_expr='icontains')
+
+    class Meta:
+        model = Ticket
+        fields = ['flight', 'order_user']

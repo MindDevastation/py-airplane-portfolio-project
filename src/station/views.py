@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models import Prefetch
 from rest_framework.pagination import PageNumberPagination
 
+from airport.filters import AirportFilter, RouteFilter, FlightFilter, OrderFilter, TicketFilter
 from airport.permissions import UserPermission
 from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order, Ticket
 from station.serializers import (
@@ -40,7 +41,7 @@ class AirportViewSet(BaseViewSet):
     list_serializer_class = AirportListSerializer
     detail_serializer_class = AirportDetailSerializer
     pagination_class = BasePagination
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filterset_class = AirportFilter
     search_fields = ["name", "closest_big_city"]
     ordering_fields = ['name', 'closest_big_city']
     ordering = ['name']
@@ -51,7 +52,7 @@ class RouteViewSet(BaseViewSet):
     list_serializer_class = RouteListSerializer
     detail_serializer_class = RouteDetailSerializer
     pagination_class = BasePagination
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filterset_class = RouteFilter
     search_fields = ["source__name", "destination__name"]
     ordering_fields = ['source__name', 'destination__name']
     ordering = ['source__name']
@@ -62,7 +63,7 @@ class AirplaneTypeViewSet(BaseViewSet):
     list_serializer_class = AirplaneTypeListSerializer
     detail_serializer_class = AirplaneTypeDetailSerializer
     pagination_class = BasePagination
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filterset_class = AirportFilter
     search_fields = ["name"]
     ordering_fields = ['name']
     ordering = ['name']
@@ -73,7 +74,6 @@ class AirplaneViewSet(BaseViewSet):
     list_serializer_class = AirplaneListSerializer
     detail_serializer_class = AirplaneDetailSerializer
     pagination_class = BasePagination
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ["name", "airplane_type__name"]
     ordering_fields = ['name', 'airplane_type__name']
     ordering = ['name']
@@ -84,7 +84,6 @@ class CrewViewSet(BaseViewSet):
     list_serializer_class = CrewListSerializer
     detail_serializer_class = CrewDetailSerializer
     pagination_class = BasePagination
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ["first_name", "last_name"]
     ordering_fields = ['first_name', 'last_name']
     ordering = ['last_name']
@@ -97,7 +96,7 @@ class FlightViewSet(BaseViewSet):
     list_serializer_class = FlightListSerializer
     detail_serializer_class = FlightDetailSerializer
     pagination_class = BasePagination
-    filter_backends = (filters.OrderingFilter, filters.SearchFilter)
+    filterset_class = FlightFilter
     search_fields = ['route__source__name', 'route__destination__name', 'departure_time', 'arrival_time']
     ordering_fields = ['departure_time', 'arrival_time']
     ordering = ['departure_time']
@@ -107,7 +106,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     pagination_class = BasePagination
     permission_classes = [UserPermission]
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ['username', "email", "first_name", "last_name"]
     ordering_fields = ['username', 'email', 'first_name', 'last_name']
     ordering = ['username']
@@ -133,7 +131,7 @@ class OrderViewSet(BaseViewSet):
     list_serializer_class = OrderListSerializer
     detail_serializer_class = OrderDetailSerializer
     pagination_class = BasePagination
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filterset_class = OrderFilter
     search_fields = ["created_at", "user__username"]
     ordering_fields = ["created_at", "user__username"]
     ordering = ['created_at']
@@ -146,7 +144,7 @@ class TicketViewSet(BaseViewSet):
     list_serializer_class = TicketListSerializer
     detail_serializer_class = TicketDetailSerializer
     pagination_class = BasePagination
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filterset_class = TicketFilter
     search_fields = ["order__created_at", "order__user__username"]
     ordering_fields = ["order__created_at", "order__user__username"]
     ordering = ['order__created_at']
