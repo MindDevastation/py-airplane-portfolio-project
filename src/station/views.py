@@ -4,16 +4,14 @@ import openpyxl
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-from rest_framework import viewsets, filters
+from rest_framework import viewsets
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 
 from airport.filters import AirportFilter, RouteFilter, FlightFilter, OrderFilter, TicketFilter
 from airport.pagination import ExtendedPagination
 from airport.permissions import UserPermission
-from station.admin import OrderResource
 from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order, Ticket
 from station.serializers import (
     AirportSerializer, AirportListSerializer, AirportDetailSerializer,

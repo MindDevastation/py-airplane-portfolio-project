@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "station",
+    "payment",
     "rest_framework",
     'django_filters',
 ]
@@ -176,3 +177,10 @@ LOGGING = {
         },
     },
 }
+
+
+# Payment
+# Stripe
+
+STRIPE_PUBLIC_KEY = "pk_test_51Qw1RuPsR3iAMxUOu1ILlr5LqkZ8ACrrZBuLABTnWQk8Ylns3N4D0UUC55z3ehq3SPLXb7zkfiKSKIzNqHN3UnUw004JETHEyU"
+STRIPE_SECRET_KEY = "sk_test_51Qw1RuPsR3iAMxUOYoPe7P4PINxieo3mXnCoCz3WpCo5WwlBDTyd01BIA9AMGZm3Lil0EICqz4gINXYTY5g7hCuY00gPX7P9qd"
