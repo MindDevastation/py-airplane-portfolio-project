@@ -1,88 +1,67 @@
-from django.contrib.auth.models import User
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
 
 from airport.permissions import UserPermission
 from station.models import Airport, Route, Airplane, AirplaneType, Crew, Flight, Order, Ticket
-from station.serializers import AirportSerializer, AirportListSerializer, AirportDetailSerializer, RouteSerializer, \
-    RouteListSerializer, RouteDetailSerializer, AirplaneTypeSerializer, AirplaneTypeListSerializer, \
-    AirplaneTypeDetailSerializer, AirplaneSerializer, AirplaneListSerializer, AirplaneDetailSerializer, CrewSerializer, \
-    CrewListSerializer, CrewDetailSerializer, FlightSerializer, FlightListSerializer, FlightDetailSerializer, \
-    UserSerializer, UserListSerializer, \
-    UserDetailSerializer, OrderSerializer, OrderListSerializer, OrderDetailSerializer, TicketSerializer, \
-    TicketListSerializer, TicketDetailSerializer
+from station.serializers import (
+    AirportSerializer, AirportListSerializer, AirportDetailSerializer,
+    RouteSerializer, RouteListSerializer, RouteDetailSerializer,
+    AirplaneTypeSerializer, AirplaneTypeListSerializer, AirplaneTypeDetailSerializer,
+    AirplaneSerializer, AirplaneListSerializer, AirplaneDetailSerializer,
+    CrewSerializer, CrewListSerializer, CrewDetailSerializer,
+    FlightSerializer, FlightListSerializer, FlightDetailSerializer,
+    UserSerializer, UserListSerializer, UserDetailSerializer,
+    OrderSerializer, OrderListSerializer, OrderDetailSerializer,
+    TicketSerializer, TicketListSerializer, TicketDetailSerializer
+)
 
+class BaseViewSet(viewsets.ModelViewSet):
+    """
+    A base ViewSet for all objects that automatically selects a serializer depending on the action.
+    """
+    def get_serializer_class(self):
+        serializer_map = {
+            'list': self.list_serializer_class,
+            'retrieve': self.detail_serializer_class
+        }
+        return serializer_map.get(self.action, self.default_serializer_class)
 
-class AirportViewSet(viewsets.ModelViewSet):
+class AirportViewSet(BaseViewSet):
     queryset = Airport.objects.all()
-    serializer_class = AirportSerializer
+    default_serializer_class = AirportSerializer
+    list_serializer_class = AirportListSerializer
+    detail_serializer_class = AirportDetailSerializer
 
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return AirportListSerializer
-        elif self.action == 'retrieve':
-            return AirportDetailSerializer
-        else:
-            return AirportSerializer
-
-class RouteViewSet(viewsets.ModelViewSet):
+class RouteViewSet(BaseViewSet):
     queryset = Route.objects.all()
-    serializer_class = RouteSerializer
+    default_serializer_class = RouteSerializer
+    list_serializer_class = RouteListSerializer
+    detail_serializer_class = RouteDetailSerializer
 
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return RouteListSerializer
-        elif self.action == 'retrieve':
-            return RouteDetailSerializer
-        else:
-            return RouteSerializer
-
-class AirplaneTypeViewSet(viewsets.ModelViewSet):
+class AirplaneTypeViewSet(BaseViewSet):
     queryset = AirplaneType.objects.all()
-    serializer_class = AirplaneTypeSerializer
+    default_serializer_class = AirplaneTypeSerializer
+    list_serializer_class = AirplaneTypeListSerializer
+    detail_serializer_class = AirplaneTypeDetailSerializer
 
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return AirplaneTypeListSerializer
-        elif self.action == 'retrieve':
-            return AirplaneTypeDetailSerializer
-        else:
-            return AirplaneTypeSerializer
-
-class AirplaneViewSet(viewsets.ModelViewSet):
+class AirplaneViewSet(BaseViewSet):
     queryset = Airplane.objects.all()
-    serializer_class = AirplaneSerializer
+    default_serializer_class = AirplaneSerializer
+    list_serializer_class = AirplaneListSerializer
+    detail_serializer_class = AirplaneDetailSerializer
 
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return AirplaneListSerializer
-        elif self.action == 'retrieve':
-            return AirplaneDetailSerializer
-        else:
-            return AirplaneSerializer
-
-class CrewViewSet(viewsets.ModelViewSet):
+class CrewViewSet(BaseViewSet):
     queryset = Crew.objects.all()
-    serializer_class = CrewSerializer
+    default_serializer_class = CrewSerializer
+    list_serializer_class = CrewListSerializer
+    detail_serializer_class = CrewDetailSerializer
 
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return CrewListSerializer
-        elif self.action == 'retrieve':
-            return CrewDetailSerializer
-        else:
-            return CrewSerializer
-
-class FlightViewSet(viewsets.ModelViewSet):
+class FlightViewSet(BaseViewSet):
     queryset = Flight.objects.all()
-    serializer_class = FlightSerializer
-
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return FlightListSerializer
-        elif self.action == 'retrieve':
-            return FlightDetailSerializer
-        else:
-            return FlightSerializer
+    default_serializer_class = FlightSerializer
+    list_serializer_class = FlightListSerializer
+    detail_serializer_class = FlightDetailSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -98,33 +77,20 @@ class UserViewSet(viewsets.ModelViewSet):
         return User.objects.filter(id=user.id)
 
     def get_serializer_class(self):
-        if self.action == 'list':
-            return UserListSerializer
-        elif self.action == 'retrieve':
-            return UserDetailSerializer
-        else:
-            return UserSerializer
+        serializer_map = {
+            'list': UserListSerializer,
+            'retrieve': UserDetailSerializer
+        }
+        return serializer_map.get(self.action, UserSerializer)
 
-class OrderViewSet(viewsets.ModelViewSet):
+class OrderViewSet(BaseViewSet):
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    default_serializer_class = OrderSerializer
+    list_serializer_class = OrderListSerializer
+    detail_serializer_class = OrderDetailSerializer
 
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return OrderListSerializer
-        elif self.action == 'retrieve':
-            return OrderDetailSerializer
-        else:
-            return OrderSerializer
-
-class TicketViewSet(viewsets.ModelViewSet):
+class TicketViewSet(BaseViewSet):
     queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
-
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return TicketListSerializer
-        elif self.action == 'retrieve':
-            return TicketDetailSerializer
-        else:
-            return TicketSerializer
+    default_serializer_class = TicketSerializer
+    list_serializer_class = TicketListSerializer
+    detail_serializer_class = TicketDetailSerializer
