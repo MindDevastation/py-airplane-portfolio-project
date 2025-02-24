@@ -1,3 +1,5 @@
+import csv
+
 import openpyxl
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
@@ -205,5 +207,22 @@ class OrderPDFExportView(APIView):
 
         p.showPage()
         p.save()
+
+        return response
+
+
+class OrderCSVExportView(APIView):
+    def get(self, request, *args, **kwargs):
+        orders = Order.objects.all()
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="orders_report.csv"'
+
+        writer = csv.writer(response)
+
+        writer.writerow(['Order ID', 'User', 'Created At'])
+
+        for order in orders:
+            writer.writerow([order.id, order.user.username, order.created_at])
 
         return response
