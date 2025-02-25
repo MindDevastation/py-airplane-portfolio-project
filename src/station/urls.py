@@ -1,7 +1,16 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from station.views import AirportViewSet, RouteViewSet, AirplaneTypeViewSet, AirplaneViewSet, CrewViewSet, \
-    FlightViewSet, UserViewSet, OrderViewSet, TicketViewSet
+from station.views import (
+    AirportViewSet,
+    RouteViewSet,
+    AirplaneTypeViewSet,
+    AirplaneViewSet,
+    CrewViewSet,
+    FlightViewSet,
+    UserViewSet,
+    OrderViewSet,
+    TicketViewSet,
+)
 
 router = DefaultRouter()
 router.register("airports", AirportViewSet)

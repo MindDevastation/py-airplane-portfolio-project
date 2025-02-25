@@ -9,12 +9,13 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 from datetime import timedelta
 from pathlib import Path
 
 import os
 
-log_dir = 'logs'
+log_dir = "logs"
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
@@ -44,8 +45,8 @@ INSTALLED_APPS = [
     "station",
     "payment",
     "rest_framework",
-    'django_filters',
-    'anymail',
+    "django_filters",
+    "anymail",
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ ROOT_URLCONF = "airport.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR /  'templates'],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -133,13 +134,11 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": (
-        "airport.permissions.CustomAuthUserPermission",
-    ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
+    "DEFAULT_PERMISSION_CLASSES": ("airport.permissions.CustomAuthUserPermission",),
+    "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
     ),
 }
 
@@ -202,8 +201,12 @@ STRIPE_SECRET_KEY = "sk_test_51Qw2buDbN9nT1B9Au2xAXNwJqdrInqjspRtC0DgQyylIwwDfdz
 # PAYPAL_SECRET = "your_test_secret"
 # PAYPAL_MODE = "sandbox"
 
-PAYPAL_CLIENT_ID = "AXV7Rwg13nxn4jSwmtY8uvvMFZP63Zu0VU7p4kNcxH0lFvqRscgqFrjEsiEPN_3ctHCETbOGLw9uO6jj"
-PAYPAL_SECRET = "EO2J9xI9j7gvfd77YgpS9B5YX--dYGd5H2TZAG72GafFMmKC6vz-1yyuRnU2lcGreZHUhq4WoB7ktHF5"
+PAYPAL_CLIENT_ID = (
+    "AXV7Rwg13nxn4jSwmtY8uvvMFZP63Zu0VU7p4kNcxH0lFvqRscgqFrjEsiEPN_3ctHCETbOGLw9uO6jj"
+)
+PAYPAL_SECRET = (
+    "EO2J9xI9j7gvfd77YgpS9B5YX--dYGd5H2TZAG72GafFMmKC6vz-1yyuRnU2lcGreZHUhq4WoB7ktHF5"
+)
 PAYPAL_MODE = "sandbox"
 
 # Mailing
@@ -222,9 +225,9 @@ PAYPAL_MODE = "sandbox"
 ANYMAIL = {
     "MAILTRAP_API_KEY": "d11c05f37d1f94",
 }
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.mailtrap.io"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = '7c160f808f5c8c'
-EMAIL_HOST_PASSWORD = 'd11c05f37d1f94'
-DEFAULT_FROM_EMAIL = 'no-reply@yourdomain.com'
+EMAIL_HOST_USER = "7c160f808f5c8c"
+EMAIL_HOST_PASSWORD = "d11c05f37d1f94"
+DEFAULT_FROM_EMAIL = "no-reply@yourdomain.com"

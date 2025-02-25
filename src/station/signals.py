@@ -16,13 +16,15 @@ def send_order_confirmation_email(sender, instance, created, **kwargs):
     if created:
         subject = f"Order #{instance.id} Confirmation"
         html_message = render_to_string(
-            'order_confirmation_email.html', {'order': instance}
+            "order_confirmation_email.html", {"order": instance}
         )
         plain_message = strip_tags(html_message)
-        from_email = 'no-reply@yourdomain.com'
+        from_email = "no-reply@yourdomain.com"
         to_email = instance.user.email
 
-        send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+        send_mail(
+            subject, plain_message, from_email, [to_email], html_message=html_message
+        )
 
 
 @receiver(post_save, sender=Flight)
@@ -39,7 +41,13 @@ def send_flight_status_update(sender, instance, **kwargs):
             from_email = "no-reply@yourdomain.com"
 
             for user in users:
-                send_mail(subject, plain_message, from_email, [user.email], html_message=html_message)
+                send_mail(
+                    subject,
+                    plain_message,
+                    from_email,
+                    [user.email],
+                    html_message=html_message,
+                )
 
 
 @shared_task
@@ -57,12 +65,21 @@ def send_flight_reminder(flight_id):
 
     if timedelta(minutes=0) <= time_until_departure <= timedelta(hours=1):
         subject = f"Reminder: Your Flight {flight.id} is in 1 hour!"
-        html_message = render_to_string("flight_reminder_email.html", {"flight": flight})
+        html_message = render_to_string(
+            "flight_reminder_email.html", {"flight": flight}
+        )
         plain_message = strip_tags(html_message)
         from_email = "no-reply@yourdomain.com"
 
         for user in users:
-            send_mail(subject, plain_message, from_email, [user.email], html_message=html_message)
+            send_mail(
+                subject,
+                plain_message,
+                from_email,
+                [user.email],
+                html_message=html_message,
+            )
+
 
 logger = logging.getLogger("user_actions")
 
@@ -71,10 +88,13 @@ logger = logging.getLogger("user_actions")
 def log_order_changes(sender, instance, created, **kwargs):
     action = "created" if created else "updated"
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    logger.info(f"{timestamp} - User {instance.user} {action} Order (ID: {instance.id})")
+    logger.info(
+        f"{timestamp} - User {instance.user} {action} Order (ID: {instance.id})"
+    )
     ActionLog.objects.create(
         user=instance.user, action=action, model_name="Order", object_id=instance.id
     )
+
 
 @receiver(post_delete, sender=Order)
 def log_order_deletion(sender, instance, **kwargs):
@@ -84,14 +104,14 @@ def log_order_deletion(sender, instance, **kwargs):
         user=instance.user, action="deleted", model_name="Order", object_id=instance.id
     )
 
+
 @receiver(post_save, sender=Flight)
 def log_flight_changes(sender, instance, created, **kwargs):
     action = "created" if created else "updated"
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     logger.info(f"{timestamp} - Flight {instance.id} {action}")
-    ActionLog.objects.create(
-        action=action, model_name="Flight", object_id=instance.id
-    )
+    ActionLog.objects.create(action=action, model_name="Flight", object_id=instance.id)
+
 
 @receiver(post_delete, sender=Flight)
 def log_flight_deletion(sender, instance, **kwargs):

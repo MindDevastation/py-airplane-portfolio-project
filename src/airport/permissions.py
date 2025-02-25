@@ -10,17 +10,18 @@ class CustomAuthUserPermission(BasePermission):
     """
 
     def has_permission(self, request, view):
-        if request.method in ['GET', 'HEAD', 'OPTIONS']:
+        if request.method in ["GET", "HEAD", "OPTIONS"]:
             return True
 
         if request.user and request.user.is_authenticated:
-            if request.method == 'POST':
+            if request.method == "POST":
                 return True
 
             if request.user.is_staff or request.user.is_superuser:
                 return True
 
         return False
+
 
 class UserPermission(BasePermission):
     """

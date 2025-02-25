@@ -2,7 +2,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from station.models import Airport, Route, AirplaneType, Airplane, Crew, Flight, Order, Ticket
+from station.models import (
+    Airport,
+    Route,
+    AirplaneType,
+    Airplane,
+    Crew,
+    Flight,
+    Order,
+    Ticket,
+)
 
 
 class AirportSerializer(serializers.ModelSerializer):
@@ -10,15 +19,18 @@ class AirportSerializer(serializers.ModelSerializer):
         model = Airport
         fields = ("id", "name")
 
+
 class AirportListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airport
         fields = ("id", "name", "closest_big_city")
 
+
 class AirportDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airport
         fields = ("id", "name", "closest_big_city")
+
 
 class RouteSerializer(serializers.ModelSerializer):
     source = serializers.PrimaryKeyRelatedField(queryset=Airport.objects.all())
@@ -28,12 +40,14 @@ class RouteSerializer(serializers.ModelSerializer):
         model = Route
         fields = ("id", "source", "destination", "distance")
 
+
 class RouteDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
         fields = ("id", "source", "destination", "distance")
         depth = 1
+
 
 class RouteListSerializer(serializers.ModelSerializer):
 
@@ -42,27 +56,34 @@ class RouteListSerializer(serializers.ModelSerializer):
         fields = ("id", "source", "destination", "distance")
         depth = 1
 
+
 class AirplaneTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AirplaneType
         fields = ("id", "name")
+
 
 class AirplaneTypeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = AirplaneType
         fields = ("id", "name")
 
+
 class AirplaneTypeDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = AirplaneType
         fields = ("id", "name")
 
+
 class AirplaneSerializer(serializers.ModelSerializer):
-    airplane_type = serializers.PrimaryKeyRelatedField(queryset=AirplaneType.objects.all())
+    airplane_type = serializers.PrimaryKeyRelatedField(
+        queryset=AirplaneType.objects.all()
+    )
 
     class Meta:
         model = Airplane
         fields = ("id", "name", "rows", "seats_in_row", "airplane_type")
+
 
 class AirplaneListSerializer(serializers.ModelSerializer):
 
@@ -71,6 +92,7 @@ class AirplaneListSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "rows", "seats_in_row", "airplane_type")
         depth = 1
 
+
 class AirplaneDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -78,20 +100,24 @@ class AirplaneDetailSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "rows", "seats_in_row", "airplane_type")
         depth = 1
 
+
 class CrewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crew
         fields = ("id", "first_name", "last_name")
+
 
 class CrewListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crew
         fields = ("id", "first_name", "last_name")
 
+
 class CrewDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crew
         fields = ("id", "first_name", "last_name")
+
 
 class FlightSerializer(serializers.ModelSerializer):
     route = serializers.PrimaryKeyRelatedField(queryset=Route.objects.all())
@@ -100,49 +126,105 @@ class FlightSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Flight
-        fields = ("route", "airplane", "departure_time", "arrival_time", "crew", "status")
+        fields = (
+            "route",
+            "airplane",
+            "departure_time",
+            "arrival_time",
+            "crew",
+            "status",
+        )
+
 
 class FlightListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flight
-        fields = ("id", "route", "airplane", "departure_time", "arrival_time", "crew", "status")
+        fields = (
+            "id",
+            "route",
+            "airplane",
+            "departure_time",
+            "arrival_time",
+            "crew",
+            "status",
+        )
         depth = 2
+
 
 class FlightDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flight
-        fields = ("id", "route", "airplane", "departure_time", "arrival_time", "crew", "status")
+        fields = (
+            "id",
+            "route",
+            "airplane",
+            "departure_time",
+            "arrival_time",
+            "crew",
+            "status",
+        )
         depth = 2
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "first_name", "last_name", "is_staff", "is_superuser", "password")
+        fields = (
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "is_staff",
+            "is_superuser",
+            "password",
+        )
         read_only_fields = ("id", "is_staff")
         extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
 
     def create(self, validated_data):
         return get_user_model().objects.create_user(**validated_data)
+
 
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "first_name", "last_name", "is_staff", "is_superuser", "password")
+        fields = (
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "is_staff",
+            "is_superuser",
+            "password",
+        )
         read_only_fields = ("id", "is_staff")
         extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
 
     def create(self, validated_data):
         return get_user_model().objects.create_user(**validated_data)
+
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "first_name", "last_name", "is_staff", "is_superuser", "password")
+        fields = (
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "is_staff",
+            "is_superuser",
+            "password",
+        )
         read_only_fields = ("id", "is_staff")
         extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
 
     def create(self, validated_data):
         return get_user_model().objects.create_user(**validated_data)
+
 
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
@@ -152,19 +234,24 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ("id", "created_at", "user", "flight")
 
+
 class OrderListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     flight = FlightListSerializer(read_only=True)
+
     class Meta:
         model = Order
         fields = ("id", "created_at", "user", "flight")
 
+
 class OrderDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     flight = FlightDetailSerializer(read_only=True)
+
     class Meta:
         model = Order
         fields = ("id", "created_at", "user", "flight")
+
 
 class TicketSerializer(serializers.ModelSerializer):
     flight = serializers.PrimaryKeyRelatedField(queryset=Flight.objects.all())
@@ -174,6 +261,7 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ("id", "row", "seat", "flight", "order")
 
+
 class TicketListSerializer(serializers.ModelSerializer):
     order = OrderListSerializer(read_only=True)
 
@@ -181,6 +269,7 @@ class TicketListSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ("id", "row", "seat", "flight", "order")
         depth = 3
+
 
 class TicketDetailSerializer(serializers.ModelSerializer):
     order = OrderListSerializer(read_only=True)

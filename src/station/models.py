@@ -34,7 +34,9 @@ class Airplane(models.Model):
     name = models.CharField(max_length=255)
     rows = models.PositiveIntegerField()
     seats_in_row = models.PositiveIntegerField()
-    airplane_type = models.ForeignKey(AirplaneType, on_delete=models.CASCADE, related_name="airplane_type")
+    airplane_type = models.ForeignKey(
+        AirplaneType, on_delete=models.CASCADE, related_name="airplane_type"
+    )
 
     def __str__(self):
         return self.name
@@ -61,16 +63,13 @@ class Flight(models.Model):
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     crew = models.ManyToManyField(Crew, related_name="flights")
-    status = models.CharField(
-        max_length=10, choices=STATUS_CHOICES, default="on_time"
-    )
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="on_time")
 
     def __str__(self):
         return f"Flight {self.id}: {self.route} - Status: {self.get_status_display()}"
 
     def get_users(self):
         return [order.user for order in self.orders.all()]
-
 
 
 class Order(models.Model):
@@ -85,13 +84,19 @@ class Order(models.Model):
 class Ticket(models.Model):
     row = models.PositiveIntegerField()
     seat = models.PositiveIntegerField()
-    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name="flight_tickets")
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_tickets")
+    flight = models.ForeignKey(
+        Flight, on_delete=models.CASCADE, related_name="flight_tickets"
+    )
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name="order_tickets"
+    )
 
     def __str__(self):
         return f"Ticket {self.id} for Flight {self.flight.id}"
 
+
 # Logging
+
 
 class ActionLog(models.Model):
     ACTION_CHOICES = [

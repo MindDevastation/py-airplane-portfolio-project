@@ -1,1 +1,1 @@
-default_app_config = 'station.apps.StationConfig'
+default_app_config = "station.apps.StationConfig"

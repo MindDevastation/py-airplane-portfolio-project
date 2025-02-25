@@ -10,7 +10,7 @@ from station.models import (
     Crew,
     Flight,
     Order,
-    Ticket
+    Ticket,
 )
 
 admin.site.register(Airport)
@@ -21,11 +21,13 @@ admin.site.register(Crew)
 admin.site.register(Flight)
 admin.site.register(Ticket)
 
+
 class OrderResource(resources.ModelResource):
     class Meta:
         model = Order
-        fields = ('id', 'user__username', 'created_at')
-        export_order = ('id', 'user__username', 'created_at')
+        fields = ("id", "user__username", "created_at")
+        export_order = ("id", "user__username", "created_at")
+
 
 @admin.register(Order)
 class OrderAdmin(ExportMixin, admin.ModelAdmin):
