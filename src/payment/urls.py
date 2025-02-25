@@ -7,6 +7,8 @@ from payment.views import (
     PaymentViewSet,
     StripePaymentViewSet,
     PayPalPaymentViewSet,
+    PayPalPaymentCancelView,
+    PayPalPaymentSuccessView,
 )
 
 router = DefaultRouter()
@@ -15,7 +17,7 @@ router.register("payment-list", PaymentViewSet, basename="payment-list")
 router.register("stripe-payments", StripePaymentViewSet, basename="stripe-payments")
 router.register("paypal-payments", PayPalPaymentViewSet, basename="paypal-payments")
 router.register("paypal", CreatePayPalPaymentView, basename="paypal-payment"),
-router.register("stripe", CreateStripePaymentView, basename="stripe-payment"),
+router.register("stripe", CreateStripePaymentView, basename="stripe-payment")
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -28,6 +30,16 @@ urlpatterns = [
         "paypal/<int:pk>/status/",
         PayPalPaymentViewSet.as_view({"patch": "update_status"}),
         name="paypal-payment-status",
+    ),
+    path(
+        "paypal/success/",
+        PayPalPaymentSuccessView.as_view(),
+        name="paypal-payment-success",
+    ),
+    path(
+        "paypal/cancel/",
+        PayPalPaymentCancelView.as_view(),
+        name="paypal-payment-cancel",
     ),
 ]
 

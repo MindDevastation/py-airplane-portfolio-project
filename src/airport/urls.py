@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from station.urls import app_name
 from station.views import (
     OrderExcelExportView,
     OrderPDFExportView,
