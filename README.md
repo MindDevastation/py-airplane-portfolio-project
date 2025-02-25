@@ -18,6 +18,10 @@
 - **Payment Systems**: Stripe, PayPal (in test mode)
 - **Testing**: Django tests, JWT tokens for testing protected endpoints
 
+## Project structure
+
+![project structure](models.png)
+
 ## Installation and Setup
 
 1. **Clone the repository**:

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django_filters",
     "anymail",
     "drf_spectacular",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
