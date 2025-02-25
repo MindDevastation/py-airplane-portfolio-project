@@ -34,22 +34,12 @@ class PaymentViewSet(viewsets.GenericViewSet):
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-class CreateStripePaymentView(APIView):
-    def post(self, request):
-        serializer = StripePaymentSerializer(data=request.data)
+class CreateStripePaymentView(viewsets.ModelViewSet):
+    queryset = StripePayment.objects.all()
+    serializer_class = StripePaymentSerializer
 
-        if serializer.is_valid():
-            try:
-                payment = serializer.save()
-
-                intent = payment.create_payment_intent()
-
-                return Response({"client_secret": intent["client_secret"]}, status=status.HTTP_201_CREATED)
-
-            except ValueError as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        serializer.save()
 
 class StripePaymentViewSet(viewsets.ModelViewSet):
     queryset = StripePayment.objects.all()
@@ -63,6 +53,7 @@ class StripePaymentViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# PayPal
 
 class PayPalPaymentViewSet(viewsets.ModelViewSet):
     queryset = PayPalPayment.objects.all()
@@ -76,8 +67,6 @@ class PayPalPaymentViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# PayPal
-
 paypalrestsdk.configure({
     "mode": settings.PAYPAL_MODE,
     "client_id": settings.PAYPAL_CLIENT_ID,
@@ -85,21 +74,19 @@ paypalrestsdk.configure({
 })
 
 
-class CreatePayPalPaymentView(APIView):
-    def post(self, request):
-        serializer = PayPalPaymentSerializer(data=request.data)
+class CreatePayPalPaymentView(viewsets.ModelViewSet):
+    queryset = PayPalPayment.objects.all()
+    serializer_class = PayPalPaymentSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             try:
                 payment = serializer.save()
-
                 approval_url = payment.create_payment()
-
                 return Response({"approval_url": approval_url}, status=status.HTTP_201_CREATED)
-
             except ValueError as e:
                 return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PayPalPaymentSuccessView(APIView):

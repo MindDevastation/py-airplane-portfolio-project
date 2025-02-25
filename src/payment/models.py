@@ -16,10 +16,19 @@ class BasePayment(models.Model):
         ("canceled", "Canceled"),
     ]
 
+    CURRENCY_CHOICES = [
+        ("usd", "USD"),
+        ("eur", "EUR"),
+        ("jpy", "JPY"),
+        ("gbp", "GBP"),
+        ("chf", "CHF"),
+        ("krw", "KRW"),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="stripe_payments")
     order = models.OneToOneField(Order, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    currency = models.CharField(max_length=10, default="USD")
+    currency = models.CharField(max_length=10, choices=CURRENCY_CHOICES, default="USD")
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="pending")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -63,7 +72,7 @@ class PayPalPayment(BasePayment):
                 "intent": "sale",
                 "payer": {"payment_method": "paypal"},
                 "transactions": [{
-                    "amount": {"total": str(self.amount), "currency": self.currency},
+                    "amount": {"total": str(self.amount), "currency": self.currency.upper()},
                     "description": "Payment for order"
                 }],
                 "redirect_urls": {
