@@ -1,7 +1,7 @@
 import django_filters
 
 from airport.pagination import PaginationFilter
-from station.models import Airport, Route, Airplane, Flight, Order, Ticket
+from station.models import Airport, Route, Airplane, Flight, Order, Ticket, AirplaneType
 
 
 class AirportFilter(django_filters.FilterSet, PaginationFilter):
@@ -36,6 +36,20 @@ class RouteFilter(django_filters.FilterSet, PaginationFilter):
     class Meta:
         model = Route
         fields = ["source", "destination"]
+
+
+class AirplaneTypeFilter(django_filters.FilterSet, PaginationFilter):
+    name = django_filters.CharFilter(lookup_expr="icontains")
+    page_size = django_filters.NumberFilter(
+        field_name="page_size",
+        method="filter_page_size",
+        required=False,
+        label="Number of items per page",
+    )
+
+    class Meta:
+        model = AirplaneType
+        fields = ["name"]
 
 
 class AirplaneFilter(django_filters.FilterSet, PaginationFilter):

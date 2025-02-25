@@ -17,7 +17,7 @@ from station.models import (
 class AirportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airport
-        fields = ("id", "name")
+        fields = ("id", "name", "closest_big_city")
 
 
 class AirportListSerializer(serializers.ModelSerializer):
