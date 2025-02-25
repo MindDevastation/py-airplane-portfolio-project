@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "anymail",
-'drf_spectacular',
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -141,7 +141,7 @@ REST_FRAMEWORK = {
         "rest_framework.filters.SearchFilter",
         "rest_framework.filters.OrderingFilter",
     ),
-'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # Simple JWT
