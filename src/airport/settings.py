@@ -34,7 +34,7 @@ SECRET_KEY = "django-insecure-8t^8o1d=e@a)4_bii2br&t49w59ab1xbnau7zvtz#c^@sd6s6=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 # Application definition
 
@@ -210,10 +210,6 @@ STRIPE_SECRET_KEY = os.environ["STRIPE_SECRET_KEY"]
 
 # PayPal
 
-# PAYPAL_CLIENT_ID = "your_test_client_id"
-# PAYPAL_SECRET = "your_test_secret"
-# PAYPAL_MODE = "sandbox"
-
 PAYPAL_CLIENT_ID = (
     os.environ["PAYPAL_CLIENT_ID"]
 )
@@ -223,17 +219,6 @@ PAYPAL_SECRET = (
 PAYPAL_MODE = os.environ["PAYPAL_MODE"]
 
 # Mailing
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.mailtrap.io'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'your_username'
-# EMAIL_HOST_PASSWORD = 'your_password'
-# DEFAULT_FROM_EMAIL = 'no-reply@yourdomain.com'
-# ANYMAIL = {
-#     "MAILTRAP_API_KEY": "your_password",
-# }
-
 
 ANYMAIL = {
     "MAILTRAP_API_KEY": os.getenv("MAILTRAP_API_KEY", )

@@ -14,10 +14,11 @@ and Django REST Framework (DRF).
 ## Technology Stack
 
 - **Backend**: Django, Django REST Framework
-- **Database**: PostgreSQL (or another compatible database)
+- **Database**: PostgreSQL 17 (or another compatible database)
 - **Authentication**: JWT (JSON Web Tokens)
 - **Payment Systems**: Stripe, PayPal (in test mode)
 - **Testing**: Django tests, JWT tokens for testing protected endpoints
+- **Other**: Docker, Docker Compose, Python 3.x
 
 ## Project structure
 
@@ -872,3 +873,74 @@ Now, your project is ready to handle test payments through
 PayPal and Stripe! 🚀
 
 For production, update API keys and switch PAYPAL_MODE to `live`.
+
+## Running the Project with Docker
+
+1. **Create the .env File**
+
+Create a `.env` file in the root of the project with the necessary
+environment variables. Example content(all needed sample content 
+you will have in .env.sample):
+```python
+# database
+POSTGRES_DB=<db_name>
+POSTGRES_DB_PORT=<db_port>
+POSTGRES_USER=<db_user>
+POSTGRES_PASSWORD=<db_password>
+POSTGRES_HOST=<db_host>
+
+# stripe
+STRIPE_PUBLIC_KEY="pk_test_xxx"
+STRIPE_SECRET_KEY="sk_test_xxx"
+
+# PayPal
+PAYPAL_CLIENT_ID="your_test_client_id"
+PAYPAL_SECRET="your_test_secret"
+PAYPAL_MODE="sandbox"
+
+# Mailing
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.mailtrap.io'
+EMAIL_PORT=587
+EMAIL_HOST_USER='your_username'
+EMAIL_HOST_PASSWORD='your_password'
+DEFAULT_FROM_EMAIL='no-reply@yourdomain.com'
+
+# ANYMAIL
+MAILTRAP_API_KEY="your_password"
+```
+
+2. **Build and Start Containers**
+
+To run the project with Docker, use the following command:
+```bash
+   docker-compose up --build
+```
+This will build the images and start containers for the PostgreSQL database and the Django web application.
+
+3. **Access the Project**
+
+Once the containers are up and running, the project will be available at the following addresses:
+
+- **API:** http://127.0.0.1:8001 or http://localhost:8001/
+- **PostgreSQL database:** available on port 5432.
+- You still can run the project from IDE. It will be able on http://127.0.0.1:8000
+
+You can use Browsable API to test the endpoints.
+
+4. **Stopping Containers**
+```bash
+   docker-compose down
+```
+
+5. **Troubleshooting**
+
+- **If the API does not load:** Check the logs of the `web` container:
+```bash
+   docker-compose logs web
+```
+- **Issues with migrations or static files:** Ensure you've run the migrations and 
+collected the static files using the commands above.
+- **Database issues:** Ensure the PostgreSQL container is running, and the correct 
+variables for connecting to the database are set in .env.
+

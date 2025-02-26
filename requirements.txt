@@ -25,6 +25,7 @@ django-import-export==4.3.6
 django-timezone-field==7.1
 djangorestframework==3.15.2
 djangorestframework_simplejwt==5.4.0
+dotenv==0.9.9
 drf-spectacular==0.28.0
 et_xmlfile==2.0.0
 gunicorn==23.0.0
@@ -41,6 +42,8 @@ paypalrestsdk==1.13.3
 pillow==11.1.0
 platformdirs==4.3.6
 prompt_toolkit==3.0.50
+psycopg-binary==3.2.5
+psycopg2-binary==2.9.10
 pycparser==2.22
 pydotplus==2.0.2
 PyJWT==2.10.1
@@ -48,6 +51,7 @@ pyOpenSSL==25.0.0
 pyparsing==3.2.1
 python-crontab==3.2.0
 python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
 PyYAML==6.0.2
 referencing==0.36.2
 reportlab==4.3.1
