@@ -12,8 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
 
 import os
+
+load_dotenv()  # take environment variables from .env.
 
 log_dir = "logs"
 if not os.path.exists(log_dir):
@@ -85,10 +88,17 @@ WSGI_APPLICATION = "airport.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': os.environ['POSTGRES_DB'],
+       'USER': os.environ['POSTGRES_USER'],
+       'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+       'HOST': os.environ['POSTGRES_HOST'],
+       'PORT': os.environ['POSTGRES_DB_PORT'],
+       'OPTIONS': {
+           'sslmode': 'require',
+       },
+   }
 }
 
 # Password validation
@@ -195,8 +205,8 @@ LOGGING = {
 # Payment
 # Stripe
 
-STRIPE_PUBLIC_KEY = "pk_test_51Qw2buDbN9nT1B9AvCLqWjs2FZjDm2BjK5FsIjldU9nZRTtNsMY37irucOcORuGgnuT8wQu3b48yDh45CChnRJnj00giHosIkM"
-STRIPE_SECRET_KEY = "sk_test_51Qw2buDbN9nT1B9Au2xAXNwJqdrInqjspRtC0DgQyylIwwDfdzpk80MX2KIxDuRNsU9RKUIG31uBe3KgWPNIMsnR00PxuODUAe"
+STRIPE_PUBLIC_KEY = os.environ["STRIPE_PUBLIC_KEY"]
+STRIPE_SECRET_KEY = os.environ["STRIPE_SECRET_KEY"]
 
 # PayPal
 
@@ -205,12 +215,12 @@ STRIPE_SECRET_KEY = "sk_test_51Qw2buDbN9nT1B9Au2xAXNwJqdrInqjspRtC0DgQyylIwwDfdz
 # PAYPAL_MODE = "sandbox"
 
 PAYPAL_CLIENT_ID = (
-    "AXV7Rwg13nxn4jSwmtY8uvvMFZP63Zu0VU7p4kNcxH0lFvqRscgqFrjEsiEPN_3ctHCETbOGLw9uO6jj"
+    os.environ["PAYPAL_CLIENT_ID"]
 )
 PAYPAL_SECRET = (
-    "EO2J9xI9j7gvfd77YgpS9B5YX--dYGd5H2TZAG72GafFMmKC6vz-1yyuRnU2lcGreZHUhq4WoB7ktHF5"
+    os.environ["PAYPAL_SECRET"]
 )
-PAYPAL_MODE = "sandbox"
+PAYPAL_MODE = os.environ["PAYPAL_MODE"]
 
 # Mailing
 
@@ -226,11 +236,11 @@ PAYPAL_MODE = "sandbox"
 
 
 ANYMAIL = {
-    "MAILTRAP_API_KEY": "d11c05f37d1f94",
+    "MAILTRAP_API_KEY": os.getenv("MAILTRAP_API_KEY", )
 }
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.mailtrap.io"
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "7c160f808f5c8c"
-EMAIL_HOST_PASSWORD = "d11c05f37d1f94"
-DEFAULT_FROM_EMAIL = "no-reply@yourdomain.com"
+EMAIL_BACKEND = os.environ["EMAIL_BACKEND"]
+EMAIL_HOST = os.environ["EMAIL_HOST"]
+EMAIL_PORT = os.environ["EMAIL_PORT"]
+EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+DEFAULT_FROM_EMAIL = os.environ["DEFAULT_FROM_EMAIL"]
