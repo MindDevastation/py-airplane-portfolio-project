@@ -10,7 +10,7 @@ class CustomAuthUserPermission(BasePermission):
     """
 
     def has_permission(self, request, view):
-        if request.method in ["GET", "HEAD", "OPTIONS"]:
+        if request.method in SAFE_METHODS:
             return True
 
         if request.user and request.user.is_authenticated:
@@ -32,12 +32,8 @@ class UserPermission(BasePermission):
     """
 
     def has_permission(self, request, view):
-        if request.method in ["POST"]:
+        if request.method == "POST" or (request.user and request.user.is_authenticated):
             return True
-
-        if request.user and request.user.is_authenticated:
-            return True
-
         return False
 
     def has_object_permission(self, request, view, obj):
@@ -47,10 +43,4 @@ class UserPermission(BasePermission):
         if request.method in SAFE_METHODS:
             return obj == request.user or request.user.is_staff
 
-        if obj == request.user:
-            return True
-
-        if request.user.is_staff and not obj.is_superuser:
-            return True
-
-        return False
+        return obj == request.user or (request.user.is_staff and not obj.is_superuser)

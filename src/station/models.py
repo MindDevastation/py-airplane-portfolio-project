@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 
@@ -58,8 +60,8 @@ class Flight(models.Model):
         ("completed", "Completed"),
     ]
 
-    route = models.ForeignKey(Route, on_delete=models.CASCADE)
-    airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="flight")
+    airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE, related_name="flight")
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     crew = models.ManyToManyField(Crew, related_name="flights")
@@ -69,12 +71,12 @@ class Flight(models.Model):
         return f"Flight {self.id}: {self.route} - Status: {self.get_status_display()}"
 
     def get_users(self):
-        return [order.user for order in self.orders.all()]
+        return self.orders.values_list("user", flat=True)
 
 
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
     flight = models.ForeignKey(Flight, related_name="orders", on_delete=models.CASCADE)
 
     def __str__(self):
@@ -105,11 +107,18 @@ class ActionLog(models.Model):
         ("deleted", "Deleted"),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="actions")
     action = models.CharField(max_length=10, choices=ACTION_CHOICES)
-    model_name = models.CharField(max_length=255)
+    content_type = models.ForeignKey(
+        ContentType,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="action_logs"
+    )
     object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user} {self.action} {self.model_name} (ID: {self.object_id}) at {self.timestamp}"
+        return f"{self.user} {self.action} {self.content_type} (ID: {self.object_id}) at {self.timestamp}"

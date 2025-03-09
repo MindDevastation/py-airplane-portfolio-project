@@ -3,7 +3,7 @@ from payment.models import StripePayment, PayPalPayment
 
 
 class StripePaymentSerializer(serializers.ModelSerializer):
-    client_secret = serializers.SerializerMethodField()
+    client_secret = serializers.IntegerField(source="stripe_payment_intent_id")
 
     class Meta:
         model = StripePayment
@@ -18,9 +18,6 @@ class StripePaymentSerializer(serializers.ModelSerializer):
         if data["amount"] <= 0:
             raise serializers.ValidationError("Amount must be greater than zero.")
         return data
-
-    def get_client_secret(self, obj):
-        return obj.stripe_payment_intent_id
 
     def create(self, validated_data):
         payment = StripePayment.objects.create(**validated_data)

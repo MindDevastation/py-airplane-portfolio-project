@@ -83,7 +83,7 @@ class BaseViewSet(viewsets.ModelViewSet):
 )
 class AirportViewSet(BaseViewSet):
 
-    queryset = Airport.objects.all().prefetch_related(
+    queryset = Airport.objects.prefetch_related(
         Prefetch("departures", queryset=Route.objects.select_related("destination")),
         Prefetch("arrivals", queryset=Route.objects.select_related("source")),
     )
@@ -104,7 +104,7 @@ class AirportViewSet(BaseViewSet):
 )
 class RouteViewSet(BaseViewSet):
 
-    queryset = Route.objects.all().select_related("source", "destination")
+    queryset = Route.objects.select_related("source", "destination")
     default_serializer_class = RouteSerializer
     list_serializer_class = RouteListSerializer
     detail_serializer_class = RouteDetailSerializer
@@ -140,7 +140,7 @@ class AirplaneTypeViewSet(BaseViewSet):
 )
 class AirplaneViewSet(BaseViewSet):
 
-    queryset = Airplane.objects.all().select_related("airplane_type")
+    queryset = Airplane.objects.select_related("airplane_type")
     default_serializer_class = AirplaneSerializer
     list_serializer_class = AirplaneListSerializer
     detail_serializer_class = AirplaneDetailSerializer
@@ -228,7 +228,7 @@ class UserViewSet(viewsets.ModelViewSet):
     responses={200: OrderListSerializer},
 )
 class OrderViewSet(BaseViewSet):
-    queryset = Order.objects.all().select_related("user")
+    queryset = Order.objects.select_related("user")
     default_serializer_class = OrderSerializer
     list_serializer_class = OrderListSerializer
     detail_serializer_class = OrderDetailSerializer

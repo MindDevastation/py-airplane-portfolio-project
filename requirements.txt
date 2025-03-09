@@ -42,7 +42,6 @@ paypalrestsdk==1.13.3
 pillow==11.1.0
 platformdirs==4.3.6
 prompt_toolkit==3.0.50
-psycopg-binary==3.2.5
 psycopg2-binary==2.9.10
 pycparser==2.22
 pydotplus==2.0.2
