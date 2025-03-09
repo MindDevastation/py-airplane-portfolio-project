@@ -61,7 +61,9 @@ class Flight(models.Model):
     ]
 
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="flight")
-    airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE, related_name="flight")
+    airplane = models.ForeignKey(
+        Airplane, on_delete=models.CASCADE, related_name="flight"
+    )
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     crew = models.ManyToManyField(Crew, related_name="flights")
@@ -107,14 +109,16 @@ class ActionLog(models.Model):
         ("deleted", "Deleted"),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="actions")
+    user = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="actions"
+    )
     action = models.CharField(max_length=10, choices=ACTION_CHOICES)
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="action_logs"
+        related_name="action_logs",
     )
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")

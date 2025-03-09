@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
 # Application definition
 
@@ -88,17 +88,17 @@ WSGI_APPLICATION = "airport.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': os.environ['POSTGRES_DB'],
-       'USER': os.environ['POSTGRES_USER'],
-       'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-       'HOST': os.environ['POSTGRES_HOST'],
-       'PORT': os.environ['POSTGRES_DB_PORT'],
-       'OPTIONS': {
-           'sslmode': 'require',
-       },
-   }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ["POSTGRES_DB"],
+        "USER": os.environ["POSTGRES_USER"],
+        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+        "HOST": os.environ["POSTGRES_HOST"],
+        "PORT": os.environ["POSTGRES_DB_PORT"],
+        "OPTIONS": {
+            "sslmode": "require",
+        },
+    }
 }
 
 # Password validation
@@ -210,18 +210,16 @@ STRIPE_SECRET_KEY = os.environ["STRIPE_SECRET_KEY"]
 
 # PayPal
 
-PAYPAL_CLIENT_ID = (
-    os.environ["PAYPAL_CLIENT_ID"]
-)
-PAYPAL_SECRET = (
-    os.environ["PAYPAL_SECRET"]
-)
+PAYPAL_CLIENT_ID = os.environ["PAYPAL_CLIENT_ID"]
+PAYPAL_SECRET = os.environ["PAYPAL_SECRET"]
 PAYPAL_MODE = os.environ["PAYPAL_MODE"]
 
 # Mailing
 
 ANYMAIL = {
-    "MAILTRAP_API_KEY": os.getenv("MAILTRAP_API_KEY", )
+    "MAILTRAP_API_KEY": os.getenv(
+        "MAILTRAP_API_KEY",
+    )
 }
 EMAIL_BACKEND = os.environ["EMAIL_BACKEND"]
 EMAIL_HOST = os.environ["EMAIL_HOST"]
