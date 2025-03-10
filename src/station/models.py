@@ -121,7 +121,8 @@ class ActionLog(models.Model):
         related_name="action_logs",
     )
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey("content_type", "object_id")
+    content_object = GenericForeignKey("content_type",
+                                       "object_id")
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
