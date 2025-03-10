@@ -29,7 +29,7 @@ class BasePayment(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="stripe_payments"
     )
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="payment")
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=10, choices=CURRENCY_CHOICES, default="USD")
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="pending")
